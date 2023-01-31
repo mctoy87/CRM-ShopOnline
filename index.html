@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+<meta charset="UTF-8">
+<title>CRM-ShopOnline</title>
+</head>
+
+<body>
+<!--По семантике здесь должен быть заголовок 1го уровня-->
+<!--<h1>Главная страница онлайн магазина CRM-ShopOnline</h1>-->
+
+  <h2>Добавить товар</h2>
+  <form action="https://jsonplaceholder.typicode.com/posts" method="POST">
+    <fieldset>
+      <!--По макету заголовка к fieldset нет-->
+      <!--<legend>Добавить товар</legend>-->
+      <label for="name">Наименование</label>
+        <br>
+        <input type="text" name="name" id="name" required>
+      <br>
+      
+      <label>Категория
+        <br>
+        <input type="text" name="category" required>
+      </label>
+      <br>
+
+      <label>Единицы измерения
+        <br>
+        <input type="text" name="units" required>
+      </label>
+      <br>
+
+      <label>Дисконт
+        <br>
+        <input type="checkbox" name="discount">
+      </label>
+      <input type="text" name="discount_card" disabled><!--Дисконт-карта--> <!--Т.к. значение поля не указано в ДЗ, считаю что это номер дисконт-карты -->
+      <br>
+
+      <label>Описание
+        <br>
+        <textarea name="description" required></textarea>
+      </label>
+      <br>
+
+      <label>Количество
+        <br>
+        <input type="number" name="count" required>
+      </label>
+      <br>
+
+      <label>Цена
+        <br>
+        <input type="number" name="price" required>
+      </label>
+      <br>
+
+      <input type="file" accept="image/*">
+    </fieldset>
+
+    <button type="submit">Добавить товар</button>
+  </form>
+</body>
+</html>
