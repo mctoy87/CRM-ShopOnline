@@ -12,7 +12,12 @@ html {
   body {
     min-width: 320px;
     min-height: 100vh;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    font-style: normal;
+    line-height: 15px;
+    color: #6E6893;
   }
   
   

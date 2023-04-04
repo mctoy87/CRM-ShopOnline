@@ -1,51 +1,162 @@
-.wrapper {
-    max-width: 792px;
+.modal {
+  display: flex;
+  background-color: #F4F2FF;
+    /* max-width: 792px;
     padding: 30px 106px;
     margin: 0 auto;
-    background-color: #F4F2FF;
-    font-family: Inter, Arial, sans-serif; /*Задал основной шрифт для этой формы*/
+
+    font-family: Inter, Arial, sans-serif;
     font-weight: 600;
     font-size: 12px;
     line-height: 15px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: #6E6893;
+    color: #6E6893; */
 }
 
 
 
-.form__title {
+.modal__body {
+    flex-basis: 792px;
+    margin: auto;
+    padding: 106px;
+}
+
+
+.modal__title {
     font-weight: 700;
     font-size: 24px;
     line-height: 29px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 43px;
+    padding-bottom: 21px;
+    margin-bottom: 21px;
+    border-bottom: 1px solid #C6C2DE;
 }
 
-.form {
-    max-width: 580px;
+.modal__form {
     background: #FFFFFF;
-    min-height: 620px;
-    margin-bottom: 32px;
-}
-
-.form__box {
-    min-height: 620px;
-    padding: 28px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     border: none;
 }
 
-.form__title-box {
+.form__box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-areas: 
+        "name description"
+        "category description"
+        "units count"
+        "discount price"
+        " . image";
+    gap: 12px 24px;
+    padding: 28px;
+    margin-bottom: 28px;
+    border: none;
+
+    /* max-width: 580px;
+    
+    min-height: 620px;
+    margin-bottom: 32px; */
+}
+
+.form__name {
+    grid-area: name;
+}
+
+.form__category {
+    grid-area: category;
+}
+
+.form__units {
+    grid-area: units;
+}
+
+.form__discount {
+    grid-area: discount;
+}
+
+.form__description {
+    grid-area: description;
+}
+
+.form__discount {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form__discount-wrap {
+    display: flex;
+    gap: 10px;
+    flex-basis: 40px;
+}
+
+.form__checkbox {
+    min-width: 40px;
+}
+
+.form__count {
+    grid-area: count;
+}
+
+.form__price {
+    grid-area: price;
+}
+
+.form-btn {
+    background-color: #6D5BD0;
+    border-radius: 6px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+.form__image-label {
+    grid-area: image;
+    display: flex;
+    min-height: 39px;
+    align-self: end;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.form__image-text {
+    font-size: 14px;
+    line-height: 17px;
+
+
+}
+
+.form__text-area {
+flex-basis: 100%;
+}
+
+
+/* .form__box {
+    min-height: 620px;
+    padding: 28px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: none;
+} */
+
+/* .form__title-box {
     display: block;
     padding: 0 50px;
     margin-bottom: 50px;
-}
+} */
 
 .form__label {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    /* display: block;
     padding-left: 10px;
     margin-bottom: 5px;
 
@@ -55,43 +166,53 @@
     font-size: 12px;
     line-height: 15px;
     letter-spacing: 0.05em;
-    text-transform: uppercase;
+     */
 }
 
-.form__input {
-    display: block;
+.form__input:not(.form__text-area, .form__input_disabled) {
+    flex-basis: 40px;
+
+    /* display: block;
     width: 100%;
     min-height: 40px;
     background: #F4F2FF;
     border-radius: 6px;
     border: none;
-    margin-bottom: 12px;
+    margin-bottom: 12px; */
+}
+
+.form__input {
+    background: #F4F2FF;
+    border-radius: 6px;
+    border: none;
 }
 
 .form__text-area {
-    min-height: 112px;
-    resize: none;
+    /* min-height: 112px;
+    resize: none; */
 }
 
 .form__checkbox {
-    display: inline-block;
+    /* display: inline-block;
     width: 40px;
-    min-height: 40px;
+    min-height: 40px; */
 }
 
 .form__input_disabled {
-    display: inline-block;
+    flex-basis: 100%;
+
+    /* display: inline-block;
     width: 474px;
     margin-left: 6px;
     vertical-align: top;
-    background-color: #EEEEEE;
+    background-color: #EEEEEE; */
 }
 .form__input_disabled:checked {
-    background-color: #F4F2FF;
+    /* background-color: #F4F2FF; */
 }
 
-.form__button {
-    font-family: 'Inter';
+.form__submit {
+    /* font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
@@ -102,5 +223,10 @@
     margin-left: 352px;
     background: #6D5BD0;
     border-radius: 6px;
-    border: none;
+    border: none; */
+}
+
+.form__cost-wrap {
+    display: flex;
+
 }

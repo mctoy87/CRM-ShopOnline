@@ -1,48 +1,81 @@
 <!DOCTYPE html>
-<html lang="ru">
-
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="styles/style.css">
-<title>CRM-ShopOnline</title>
-</head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <link rel="stylesheet" href="styles/style.css">
+  <script defer src="script.js"></script>
+  <title>CRM-ShopOnline</title>
+</head>
 <body>
 <!--По семантике здесь должен быть заголовок 1го уровня-->
 <!--<h1>Главная страница онлайн магазина CRM-ShopOnline</h1>-->
-<section class="wrapper">
-  <h2 class="form__title">Добавить товар</h2>
-  <form class="form" action="https://jsonplaceholder.typicode.com/posts" method="POST" id="add-form">
-    <fieldset class="form__box">
-      <!-- Название таблицы есть в заголовке к секции .add -->
-      <!-- <legend class="form__title-box">Добавить товар</legend> -->
-      <label class="form__label" for="name">Наименование</label>
-      <input class="form__input" type="text" name="name" id="name" required>
-      
-      <label class="form__label" for="category">Категория</label>
-      <input class="form__input" type="text" name="category" id="category"required>
-      
+<section class="modal">
+  <div class="modal__body">
+    <h2 class="modal__title">Добавить товар</h2>
+    <form class="modal__form form" action="https://jsonplaceholder.typicode.com/posts" method="POST" id="modal">
+      <fieldset class="form__box">
+        <label class="form__label form__name">
+          <span class="form__label-text">Наименование</span>
+          <input class="form__input" type="text" name="name" id="name" required>
+        </label>
 
-      <label class="form__label" for="units">Единицы измерения</label>
-      <input class="form__input" type="text" name="units" id="units" required>
-      
-      <label class="form__label" for="discount">Дисконт</label>
-      <input class="form__checkbox" type="checkbox" name="discount" id="discount">
+        <label class="form__label form__category">
+          <span class="form__label-text">Категория</span>
+          <input class="form__input" type="text" name="category" id="category" required>
+        </label>
 
-      <input class="form__input form__input_disabled" type="text" name="discount_card" disabled><!--Дисконт-карта-->
 
-      <label class="form__label" for="description">Описание</label>
-      <textarea class="form__text-area form__input"name="description" id="description" required></textarea>
-      
-      <label class="form__label" for="count">Количество</label>
-      <input class="form__number-input form__input" type="number" name="count" id="count" required>
-      
-      <label class="form__label" for="price">Цена</label>
-      <input class="form__price-input form__input" type="number" name="price" id="price" required>
-      
-    </fieldset>
-  </form>
-  <button class="form__button" type="submit" form="add-form">Добавить товар</button>
+        <label class="form__label form__units">
+          <span class="form__label-text">Единицы измерения</span>
+          <input class="form__input" type="text" name="units" id="units" required>
+        </label>
+
+        <div class="form__discount">
+          <label class="form__label" for="discount">
+            <span class="form__label-text">Дисконт</span>
+          </label>
+          
+          <div class="form__discount-wrap">
+            <input class="form__checkbox" type="checkbox" name="discount" id="discount">
+            <input class="form__input form__input_disabled" type="text" name="discount_card" disabled>
+          </div>
+        </div>
+
+        <label class="form__label form__description">
+          <span class="form__label-text">Описание</span>
+          <textarea class="form__text-area form__input" name="description" id="description" required></textarea>
+        </label>
+
+        <label class="form__label form__count">
+          <span class="form__label-text">Количество</span>
+          <input class="form__number-input form__input" type="number" name="count" id="count" required>
+        </label>
+
+        <label class="form__label form__price">
+          <span class="form__label-text form__number">Цена</span>
+          <input class="form__price-input form__input" type="number" name="price" id="price" required>
+        </label>
+
+        <label class="form__image-label form-btn" for="image">
+          <span class="form__image-text">Добавить изображение</span>
+          <input class="form__image visually-hidden" type="file" name="image" id="image">
+        </label>
+      </fieldset>
+
+      <div class="form__cost-wrap">
+        <p class="form__total-cost-txt">Итоговая стоимость:
+          <span class="form__total-cost">$ 900.00</span>
+        </p>
+        <button class="form__submit form-btn" type="submit" form="modal">Добавить товар</button>
+      </div>
+
+    </form>
+
+    <button class="modal__close" type="button"></button>
+  </div>
 </section>
 
 </body>
