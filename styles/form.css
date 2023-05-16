@@ -1,232 +1,240 @@
-.modal {
-  display: flex;
-  background-color: #F4F2FF;
-    /* max-width: 792px;
-    padding: 30px 106px;
-    margin: 0 auto;
+  .modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    background-color: var(--main-color-4,#F4F2FF);
+    overflow-y: auto;
+    /*Добавляем наложение, чтобы перекрыть select таблицы*/
+    z-index: 1;
+    display: none;
+  }
 
-    font-family: Inter, Arial, sans-serif;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 15px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: #6E6893; */
-}
-
-
-
-.modal__body {
+  .modal__body {
+    position: relative;
     flex-basis: 792px;
     margin: auto;
-    padding: 106px;
-}
+    padding: 32px 106px 39px;
+  }
 
-
-.modal__title {
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 29px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .modal__title {
     padding-bottom: 21px;
     margin-bottom: 21px;
-    border-bottom: 1px solid #C6C2DE;
-}
+    border-bottom: 1px solid var(--main-color-3,#C6C2DE);
+  }
 
-.modal__form {
-    background: #FFFFFF;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    border: none;
-}
-
-.form__box {
+  .form__box {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas: 
-        "name description"
-        "category description"
-        "units count"
-        "discount price"
-        " . image";
+      "name description"
+      "category description"
+      "units count"
+      "discount price"
+      " . image";
     gap: 12px 24px;
     padding: 28px;
     margin-bottom: 28px;
     border: none;
 
-    /* max-width: 580px;
-    
-    min-height: 620px;
-    margin-bottom: 32px; */
-}
+    background: #FFFFFF;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+  }
 
-.form__name {
+  .form__name {
     grid-area: name;
-}
+  }
 
-.form__category {
+  .form__category {
     grid-area: category;
-}
+  }
 
-.form__units {
+  .form__units {
     grid-area: units;
-}
+  }
 
-.form__discount {
+  .form__discount {
     grid-area: discount;
-}
+  }
 
-.form__description {
+  .form__description {
     grid-area: description;
-}
+  }
 
-.form__discount {
+  .form__discount {
     display: flex;
     flex-direction: column;
     gap: 5px;
-}
+  }
 
-.form__discount-wrap {
+  .form__discount-wrap {
     display: flex;
     gap: 10px;
     flex-basis: 40px;
-}
+  }
 
-.form__checkbox {
+  .form__checkbox {
+
+    display: none;
+  }
+
+  .form__checkbox-label {
+    display: block;
     min-width: 40px;
-}
-
-.form__count {
-    grid-area: count;
-}
-
-.form__price {
-    grid-area: price;
-}
-
-.form-btn {
-    background-color: #6D5BD0;
+    background-color: var(--main-color-4,#F4F2FF);
     border-radius: 6px;
-    color: #FFFFFF;
-    text-transform: uppercase;
-}
+    cursor: pointer;
+  }
 
-.form__image-label {
+  input[type=checkbox]:checked + .form__checkbox-label:before {
+    content: "";
+    display: block;
+    background-image: url('../icons/check_discount.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: auto;
+    height: 100%;
+  }
+
+  .form__count {
+    grid-area: count;
+  }
+
+  .form__price {
+    grid-area: price;
+  }
+
+  .form__image-label {
     grid-area: image;
     display: flex;
     min-height: 39px;
     align-self: end;
     justify-content: center;
     align-items: center;
+  }
 
-}
+  .form__image-label:focus{
+    /*добавим ховер*/
+    outline: 2px solid #000000;
+  }  
 
-
-.form__image-text {
+  .form__image-text {
     font-size: 14px;
     line-height: 17px;
+  }
 
+  .form__text-area {
+    flex-basis: 100%;
+    resize: none;
+  }
 
-}
-
-.form__text-area {
-flex-basis: 100%;
-}
-
-
-/* .form__box {
-    min-height: 620px;
-    padding: 28px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    border: none;
-} */
-
-/* .form__title-box {
-    display: block;
-    padding: 0 50px;
-    margin-bottom: 50px;
-} */
-
-.form__label {
+  .form__label {
     display: flex;
     flex-direction: column;
     gap: 5px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    /* display: block;
-    padding-left: 10px;
-    margin-bottom: 5px;
+  }
 
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 15px;
-    letter-spacing: 0.05em;
-     */
-}
-
-.form__input:not(.form__text-area, .form__input_disabled) {
+  .form__input:not(.form__text-area, .form__input_disabled) {
     flex-basis: 40px;
+  }
 
-    /* display: block;
-    width: 100%;
-    min-height: 40px;
-    background: #F4F2FF;
+  .form__input {
+    background-color: var(--main-color-4,#F4F2FF);
     border-radius: 6px;
     border: none;
-    margin-bottom: 12px; */
-}
+    padding-left: 5px;
+  }
 
-.form__input {
-    background: #F4F2FF;
-    border-radius: 6px;
-    border: none;
-}
-
-.form__text-area {
-    /* min-height: 112px;
-    resize: none; */
-}
-
-.form__checkbox {
-    /* display: inline-block;
-    width: 40px;
-    min-height: 40px; */
-}
-
-.form__input_disabled {
+  .form__input_disabled {
     flex-basis: 100%;
+  }
 
-    /* display: inline-block;
-    width: 474px;
-    margin-left: 6px;
-    vertical-align: top;
-    background-color: #EEEEEE; */
-}
-.form__input_disabled:checked {
-    /* background-color: #F4F2FF; */
-}
-
-.form__submit {
-    /* font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 19px;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    padding: 10px 25px;
-    margin-left: 352px;
-    background: #6D5BD0;
-    border-radius: 6px;
-    border: none; */
-}
-
-.form__cost-wrap {
+  .form__submit {
+    flex-basis: 200px;
     display: flex;
+    min-height: 39px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+  }
 
-}
+  .form__cost-wrap {
+    display: flex;
+    padding: 0 28px;
+    justify-content: space-between;
+  }
+
+  .modal__id {
+    position: absolute;
+    top: 40px;
+    right: 106px;
+    border: none;
+    color: #C5C5C5;
+  }
+
+  .modal__close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    line-height: 0;
+    background-color: transparent;
+    border: none;
+    color: #6E6893;
+  }
+
+  @media (hover: hover) {
+    .modal__close:hover, 
+    .modal__id:hover {
+      color: #000000;
+    }
+
+    .modal__close:active, 
+    .modal__id:active {
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .modal__body {
+      padding: 32px 50px 39px;
+    }
+
+    .form__box {
+      grid-template-columns: repeat(1, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      grid-template-areas:
+          "name"
+          "category"
+          "units"
+          "discount"
+          "description"
+          "count"
+          "price"
+          "image";
+      gap: 12px 24px;
+    }
+
+    .form__cost-wrap {
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .modal__body {
+      padding: 32px 20px 39px;
+    }
+
+    .modal__id {
+      top: 50px;
+      right: 20px;
+    }
+    .modal__close {
+      width: 20px;
+      height: 20px;
+    }
+  }

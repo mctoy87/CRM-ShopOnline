@@ -1,21 +1,21 @@
 
 /* inter-regular - cyrillic_latin */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Inter';
+    src: url('../fonts/Inter-Regular-400.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../fonts/Inter-Regular-400.woff') format('woff'); /* Modern Browsers */
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-style: normal;
     font-weight: 400;
-    src: url('../fonts/Inter-Regular-400.woff2') format('woff2'), /* Super Modern Browsers */
-         url('../fonts/Inter-Regular-400.woff') format('woff'), /* Modern Browsers */
 }
   /* inter-500 - cyrillic_latin */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Inter';
+    src: url('../fonts/Inter-Medium-500.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../fonts/Inter-Medium-500.woff') format('woff'); /* Modern Browsers */
     font-style: normal;
     font-weight: 500;
-    src: url('../fonts/Inter-Medium-500.woff2') format('woff2'), /* Super Modern Browsers */
-         url('../fonts/Inter-Medium-500.woff') format('woff'), /* Modern Browsers */
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 }
 
 @font-face {

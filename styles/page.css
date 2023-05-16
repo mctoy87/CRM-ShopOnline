@@ -1,0 +1,321 @@
+.page {
+  padding-top: 79px;
+  padding-bottom: 100px;
+}
+
+.page__title-wrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px 7px;
+  border-bottom: 1px solid var(--main-color-3,#C6C2DE);
+  margin-bottom: 20px;
+}
+
+.page__form {
+  padding: 20px 15px;
+  display: flex;
+  border: 1px solid  var(--main-color-2, #D9D5EC);
+  border-radius: 8px 8px 0 0;
+}
+
+.page__filter {
+  min-height: 40px;
+  flex-basis: 108px;
+  margin-right: 20px;
+
+  background-color: transparent;
+  border: 1px solid var(--main-color-3,#C6C2DE);
+  border-radius: 6px;
+}
+
+.page__filter-txt {
+  font-size: 16px;
+  line-height: 19px;
+  color: #25213B;
+  padding-left: 30px;
+  background-image: url('../icons/filter.svg');
+  background-repeat: no-repeat;
+  background-position: left;
+}
+
+.page-search-wrap {
+
+  display: flex;
+  align-items: center;
+  flex-basis: 392px;
+  margin-right: auto;
+
+}
+
+.page__search-input {
+  padding-left: 40px;
+  width: 100%;
+  height: 100%;
+  background: var(--main-color-4,#F4F2FF);
+  border-radius: 6px;
+  border: none;
+  /*добавляем иконку поиска*/
+  background-image: url('../icons/search.svg');
+  background-position: left 10px center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.page__search-input:hover,
+.page__filter:hover {
+  background-color: rgba(161, 8, 8, 0.11);
+}
+
+.page__search-input:focus,
+.page__filter:focus {
+  outline: none;
+  box-shadow: 0px 4px 4px var(--main-color-1, rgba(0, 0, 0, 0.25));
+}
+
+.page__search-input:active,
+.page__filter:active {
+  border: 1px solid rgba(255, 0, 0, 0.37);
+}
+
+.page__submit {
+  flex-basis: 181px;
+  border: none;
+}
+
+/*добавляем границы к самой обертке таблицы*/
+.page__table-wrap {
+  border: 1px solid  var(--main-color-2, #D9D5EC);
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  overflow-x: auto;
+
+}
+
+.page__table {
+  /*растягиваем таблицу на всю обертку*/
+  width: 100%;
+  min-width: 1100px;
+  padding: 0 15px 0 20px;
+  border-collapse: collapse;
+  /*Общие стили для таблицы*/
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #25213B;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.table__head,
+.table__foot {
+  height: 45px;
+  background-color: var(--main-color-4,#F4F2FF);
+}
+
+.table__first-row {
+text-align: left;
+}
+/*оставлем границу только нижнюю горизонтальную*/
+.table__row {
+  height: 60px;
+  border-bottom: 1px solid var(--main-color-2, #D9D5EC);
+}
+
+/*убираем верхнюю горизонтальную границу таблицы*/
+.table__row:first-child {
+  border-top: none;
+}
+/*делаем отступ текста слева в таблице*/
+th:first-of-type,
+td:first-of-type {
+  padding-left: 15px;
+}
+
+.table__measure,
+.table__quantity,
+.table__price {
+  text-align: center;
+}
+
+
+.table__no-picture,
+.table__picture,
+.table__edit,
+.table__delete {
+  background-color: transparent;
+  border: none;
+  width: 20px;
+  height: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/*Другой цвет текста в таблице*/
+.table__head,
+.table__foot,
+.table__measure,
+.table__no-picture,
+.table__picture,
+.table__edit,
+.table__delete,
+.table__previouse-page,
+.table__next-page {
+  color: #6E6893;
+}
+
+
+.table__no-picture{
+  background-image: url('../icons/no-image.svg');
+}
+
+.table__picture{
+  background-image: url('../icons/product_image.svg');
+}
+
+.table__edit {
+  background-image: url('../icons/edit.svg');
+}
+
+.table__delete {
+  background-image: url('../icons/delete.svg');
+}
+
+
+.table__no-picture:focus,
+.table__picture:focus,
+.table__edit:focus,
+.table__delete:focus{
+  /*убираем фокус эффекты по умолчанию*/
+  outline: none;
+  /*добавляем фокус эффекты*/
+  box-shadow: 0px 4px 4px var(--main-color-1, rgba(0, 0, 0, 0.25));
+}
+
+.table__no-picture:hover,
+.table__picture:hover,
+.table__edit:hover,
+.table__delete:hover{
+  /*добавляем ховер эффекты*/
+  background-color:var(--main-color-1, rgba(0, 0, 0, 0.25));
+}
+
+.table__no-picture:active,
+.table__picture:active,
+.table__edit:active,
+.table__delete:active{
+  /*добавляем active эффекты*/
+  background-color:rgba(185, 35, 245, 0.25);
+}
+
+.table__header {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.table__foot {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.05em;
+}
+
+.table__select-wrap {
+  position: relative;
+}
+
+.table__select {
+  /*Убираем браузерную стрелку*/
+  appearance: none;
+  /*задаем свой фон и рамку*/
+  border: none;
+  background-color: transparent;
+  /*делаем кликабельной зону псевдоэлемента*/
+  padding-right: 20px;
+  /*убираем браузерную обводку*/
+  outline: none;
+  cursor: pointer;
+}
+/*добавим фокус-эффекты*/
+.table__select:focus {
+  outline: none;
+  box-shadow: 0px 4px 4px var(--main-color-1, rgba(0, 0, 0, 0.25));
+}
+
+/*отображаем новый  select*/
+.table__select-wrap::before {
+  position: absolute;
+  content: "";
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  /*рисуем свою стрелку*/
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 5px 4px 0 4px;
+    border-color: #6E6893 transparent transparent transparent;
+    transform: rotate(0deg);
+  /*снимаем клик с треугольника*/
+  pointer-events: none;
+}
+
+
+
+.table__previouse-page,
+.table__next-page {
+  /*снимаем эффекты с кнопок*/
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.table__previouse-page:focus,
+.table__next-page:focus {
+  /*добавим фокус-эффекты*/
+  box-shadow: 0px 4px 4px var(--main-color-1, rgba(0, 0, 0, 0.25));
+}
+
+.table__select:hover,
+.table__previouse-page:hover,
+.table__next-page:hover {
+  /*добавим фокус-эффекты*/
+  background-color:var(--main-color-1, rgba(0, 0, 0, 0.25));
+}
+
+.table__select:active,
+.table__previouse-page:active,
+.table__next-page:active {
+  /*добавим фокус-эффекты*/
+  color:rgba(255, 0, 0, 0.664);
+}
+
+@media (max-width: 900px) {
+  .page__form {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .page__filter {
+    flex-basis: 40px;
+    margin: 0;
+  }
+
+  .page-search-wrap {
+    margin: 0;
+    flex-basis: 40px;
+  }
+
+  .page__submit {
+    flex-basis: 40px;
+  }
+}
+
+@media (max-width: 540px) {
+  .page__title-wrap {
+    flex-wrap: wrap;
+    gap:10px;
+  }
+}

@@ -1,4 +1,6 @@
 @import "normalize.css";
 @import "global_style.css";
 @import "fonts.css";
+@import "var.css";
 @import "form.css";
+@import "page.css";
