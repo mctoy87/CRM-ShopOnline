@@ -1,7 +1,7 @@
 'use strict';
 
-const titlePage = document.querySelector('title');
-console.log(titlePage);
+const modalTitle = document.querySelector('.modal__title');
+console.log(modalTitle);
 
 const modalId = document.querySelector('.modal__id');
 console.log(modalId);
