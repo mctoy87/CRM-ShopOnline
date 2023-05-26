@@ -1,12 +1,15 @@
   .modal {
     position: fixed;
     inset: 0;
-    display: flex;
     background-color: var(--main-color-4,#F4F2FF);
     overflow-y: auto;
     /*Добавляем наложение, чтобы перекрыть select таблицы*/
     z-index: 1;
     display: none;
+  }
+
+  .modal_display-flex {
+    display: flex;
   }
 
   .modal__body {
