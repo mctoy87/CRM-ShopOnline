@@ -107,19 +107,8 @@ const createRow = (obj) => {
 // createRow, в таблицу (советую использовать метод map)
 const renderGoods = (arr) => {
 // рендерит массив объектов, перебирает(map) 
-  const makeRaw = arr.map((item) => {
-    // деструктуирует объект
-    const {
-      id,
-      title,
-      category,
-      units,
-      count,
-      price,
-    } = item;
-    // возвращает объекты после функции createRow
-    return createRow(item);
-  });
+// возвращает объекты после функции createRow
+  const makeRaw = arr.map(item => createRow(item));
   // получаем tbody
   const table = document.querySelector('.table__body');
   // append в tbody 
