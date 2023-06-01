@@ -77,7 +77,7 @@
   border: 1px solid rgba(255, 0, 0, 0.37);
 }
 
-.page__submit {
+.page__modal-open {
   flex-basis: 181px;
   border: none;
 }
@@ -308,7 +308,7 @@ td:first-of-type {
     flex-basis: 40px;
   }
 
-  .page__submit {
+  .page__modal-open {
     flex-basis: 40px;
   }
 }

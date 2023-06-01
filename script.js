@@ -21,6 +21,11 @@ console.log(modalDiscountInput);
 const modalTotalCost = document.querySelector('.form__total-cost');
 console.log(modalTotalCost);
 
+const modalOpen = document.querySelector('.page__modal-open');
+console.log(modalOpen);
+
+const modal = document.querySelector('.modal');
+
 // unit_5_3 . Создайте функцию createRow, которая будет получать объект
 // и на основе объекта формировать элемент <tr> с <td> внутри
 
@@ -116,3 +121,22 @@ const renderGoods = (arr) => {
 };
 // вызов функции
 renderGoods(arrayGoods);
+
+
+// открытие модалки
+modalOpen.addEventListener('click', () => {
+  modal.classList.remove('modal_display-none');
+});
+
+// закрытие модалки на крестик
+modalClose.addEventListener('click', ()=> {
+  modal.classList.add('modal_display-none');
+});
+// заблокирует всплытие на события формы
+modalForm.addEventListener('click', event => {
+  event.stopPropagation();
+});
+// закрытие модалки на overlay
+modal.addEventListener('click', ()=> {
+  modal.classList.add('modal_display-none');
+});

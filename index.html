@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="styles/style.css">
-  <script defer src="script.js" type="module"></script>
+  <script defer src="script.js"></script>
   <title>CRM-ShopOnline</title>
 </head>
 <body>
 <!--По семантике здесь должен быть заголовок 1го уровня-->
 <h1 class="visually-hidden">Главная страница онлайн магазина CRM-ShopOnline</h1>
-<section class="modal modal_display-flex">
+<section class="modal modal_display-none">
   <div class="modal__body">
     <h2 class="modal__title title">Добавить товар</h2>
     <form class="modal__form form" action="https://jsonplaceholder.typicode.com/posts" method="POST" id="modal">
@@ -102,7 +102,7 @@
         <label  class="page__search-label visually-hidden" for="page-search">Поиск товаров</label>
         <input class="page__search-input" id="page-search" type="search"  placeholder="Поиск по наименованию и категории">
       </div>
-      <button class="page__submit form-btn" type="submit">Добавить товар</button>
+      <button class="page__modal-open form-btn" type="button">Добавить товар</button>
     </form>
     <div class="page__table-wrap">
       <table class="page__table table">

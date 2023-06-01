@@ -5,11 +5,12 @@
     overflow-y: auto;
     /*Добавляем наложение, чтобы перекрыть select таблицы*/
     z-index: 1;
-    display: none;
+    display: flex;
   }
 
-  .modal_display-flex {
-    display: flex;
+  .modal_display-none {
+    display: none;
+    
   }
 
   .modal__body {
