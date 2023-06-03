@@ -26,6 +26,9 @@ console.log(modalOpen);
 
 const modal = document.querySelector('.modal');
 
+const list = document.querySelector('.table__body');
+console.log(list);
+
 // unit_5_3 . Создайте функцию createRow, которая будет получать объект
 // и на основе объекта формировать элемент <tr> с <td> внутри
 
@@ -97,11 +100,17 @@ const createRow = (obj) => {
     <td>${obj.category}</td>
     <td class="table__measure">${obj.units}</td>
     <td class="table__quantity">${obj.count}</td>
-    <td class="table__price">${obj.price}</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td class="table__price">$${obj.price}</td>
+    <td>$${obj.price * obj.count}</td>
+    <td>
+      <button class="table__picture" type="button"></button>
+    </td>
+    <td>
+      <button class="table__edit" type="button"></button>
+    </td>
+    <td>
+      <button class="table__delete" type="button"></button>
+    </td>
     `
   )
   return tableRow;
@@ -128,15 +137,30 @@ modalOpen.addEventListener('click', () => {
   modal.classList.remove('modal_display-none');
 });
 
-// закрытие модалки на крестик
-modalClose.addEventListener('click', ()=> {
-  modal.classList.add('modal_display-none');
+// закрытие модалки на крестик и overlay
+modal.addEventListener('click', e => {
+  const target = e.target;
+  if ((target === modal) || (target.classList.contains('modal__body')) || target.closest('.modal__close')) {
+    modal.classList.add('modal_display-none');
+  }
 });
-// заблокирует всплытие на события формы
-modalForm.addEventListener('click', event => {
-  event.stopPropagation();
-});
-// закрытие модалки на overlay
-modal.addEventListener('click', ()=> {
-  modal.classList.add('modal_display-none');
-});
+
+// БД до удаления
+console.log('БД до удаления: ',arrayGoods)
+
+// удалить строки из верстки по событию
+list.addEventListener('click', e => {
+  const target = e.target;
+  if (target.closest('.table__delete')) {
+    target.closest('.table__row').remove();
+
+    // удалить объект из БД arrayGoods по событию
+    // 1. получаем все кнопки delete в NodeList и спредим их в массив
+    // 2. методом массива indexOf находим индекс кнопки, содержащей target
+    // 3. методом splice удаляем из массива БД объект по индексу
+    arrayGoods.splice([...document.querySelectorAll('.table__delete')].indexOf('target'), 1);
+    // 4. выводит в консоль БД
+    console.log('БД после удаления: ',arrayGoods)
+    };
+  });
+
