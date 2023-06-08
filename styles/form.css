@@ -94,7 +94,7 @@
   input[type=checkbox]:checked + .form__checkbox-label:before {
     content: "";
     display: block;
-    background-image: url('../icons/check_discount.svg');
+    background-image: url('../icons/check_icon.png');
     background-repeat: no-repeat;
     background-position: center;
     width: auto;
