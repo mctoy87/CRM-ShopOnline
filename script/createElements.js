@@ -11,7 +11,11 @@ export const createRow = (obj) => {
     <td class="table__price">$${obj.price}</td>
     <td class="table__total">$${obj.price * obj.count}</td>
     <td>
-      <button class="table__picture" type="button"></button>
+      <button
+        class="table__picture" 
+        type="button"
+        data-pic="../icons/turbo.jpg">
+      </button>
     </td>
     <td>
       <button class="table__edit" type="button"></button>

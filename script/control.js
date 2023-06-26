@@ -79,6 +79,13 @@ const deleteProduct = (arrayGoods) => {
       // 4. выводит в консоль БД
       console.log('БД после удаления: ', arrayGoods);
     }
+    // открыть через кнопку добавления картинки
+    if (target.closest('.table__picture')) {
+      const topPic = (screen.height - 600) / 2;
+      const widthPic = (screen.width - 600) / 2;
+      window.open(target.dataset.pic, '', `
+        width=600, height=600, top=${topPic}, left=${widthPic}`);
+    }
   });
 };
 
