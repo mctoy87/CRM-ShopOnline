@@ -1,5 +1,7 @@
 import {showSum} from './view.js';
 import {renderGoods} from './render.js';
+import {getRenderGoods} from './render.js';
+import {httpRequest} from './render.js';
 import getElement from './getElement.js';
 
 const {
@@ -10,6 +12,7 @@ const {
   modalOpen,
   modal,
   list,
+  modalError,
 } = getElement;
 
 const modalControl = () => {
@@ -30,20 +33,46 @@ const modalControl = () => {
       // сброс формы при выходе
       modalForm.reset();
       modalDiscountInput.setAttribute('disabled', '');
+      // скрыть окошко об ошибке с сервера
+      modalError.classList.add('visually-hidden');
     }
   });
 };
 
 // добавление из формы в data
 const addProduct = (arrayGoods) => {
-  console.log('БД до добавления: ', arrayGoods);
   modalForm.addEventListener('submit', e => {
     e.preventDefault();
+    // запрос к серверу
+    httpRequest('https://guttural-flax-seatbelt.glitch.me/api/goods', {
+      method: 'POST',
+      body: {
+        title: modalForm.title.value,
+        description: modalForm.description.value,
+        price: modalForm.price.value,
+        count: modalForm.count.value,
+        units: modalForm.units.value,
+        category: modalForm.category.value,
+      },
+      callback(err, data) {
+        if (err || data === null) {
+          console.warn(err, data);
+          const modalDisplay = document.querySelector('.modal');
+          modalDisplay.classList.remove('modal_display-none');
+          const modalError = document.querySelector('.modal__error');
+          modalError.classList.remove('visually-hidden');
+          return;
+        }
+        console.log(`Заявка успешно отправлена. Номер заявки ${data.id}`);
+        getRenderGoods();
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     const formData = new FormData(e.target);
-    console.log('formData: ', formData);
-    console.log('Object.fromEntries(formData): ', Object.fromEntries(formData));
     arrayGoods.push(Object.fromEntries(formData));
-    console.log('БД после добавления: ', arrayGoods)
+
     renderGoods([Object.fromEntries(formData)]);
     // отображение корректной общей суммы в таблице
     showSum();
@@ -59,8 +88,6 @@ const addProduct = (arrayGoods) => {
 
 // удалить из БД товар
 const deleteProduct = (arrayGoods) => {
-  // БД до удаления
-  console.log('БД до удаления: ', arrayGoods);
   // удалить строки из верстки по событию
   list.addEventListener('click', e => {
     const target = e.target;
@@ -70,9 +97,9 @@ const deleteProduct = (arrayGoods) => {
       const arr = [...document.querySelectorAll('.table__delete')];
       // 2. методом массива indexOf находим индекс кнопки, содержащей target
       // 3. методом splice удаляем из массива БД объект по индексу
-      const res = arr.indexOf(target);
+
       arrayGoods.splice(arr.indexOf(target), 1);
-      // удалить из верстки 
+      // удалить из верстки
       target.closest('.table__row').remove();
       // 3.1. поменять общую сумму
       showSum();
