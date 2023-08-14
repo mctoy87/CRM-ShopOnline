@@ -1,4 +1,8 @@
 import {createRow} from './createElements.js';
+import getElement from './getElement.js';
+const {
+  modalForm,
+} = getElement;
 
 const URL = 'https://guttural-flax-seatbelt.glitch.me/api/goods';
 

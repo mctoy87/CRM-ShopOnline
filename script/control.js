@@ -5,7 +5,6 @@ import {httpRequest} from './render.js';
 import getElement from './getElement.js';
 
 const {
-  modalId,
   modalForm,
   modalDiscountInput,
   modalTotalCost,
@@ -33,6 +32,10 @@ const modalControl = () => {
       // сброс формы при выходе
       modalForm.reset();
       modalDiscountInput.setAttribute('disabled', '');
+    }
+    // закрытие окна с ошибкой "Что-то пошло не так"
+    if ((target === modal) ||
+        target.closest('.modal__error-close')) {
       // скрыть окошко об ошибке с сервера
       modalError.classList.add('visually-hidden');
     }
@@ -78,9 +81,7 @@ const addProduct = (arrayGoods) => {
     showSum();
     modalForm.reset();
     modalDiscountInput.setAttribute('disabled', '');
-    // рендер id
-    const lastId = list.lastElementChild.firstElementChild;
-    lastId.textContent = modalId.textContent.substring(4);
+
     // закрытие модалки
     modal.classList.add('modal_display-none');
   });
