@@ -1,8 +1,9 @@
 import {showSum} from './view.js';
 import {renderGoods} from './render.js';
 import {getRenderGoods} from './render.js';
-import {httpRequest} from './render.js';
+import {fetchRequest} from './render.js';
 import getElement from './getElement.js';
+import {URL} from './render.js';
 
 const {
   modalForm,
@@ -47,7 +48,7 @@ const addProduct = (arrayGoods) => {
   modalForm.addEventListener('submit', e => {
     e.preventDefault();
     // запрос к серверу
-    httpRequest('https://guttural-flax-seatbelt.glitch.me/api/goods', {
+    fetchRequest(URL, {
       method: 'POST',
       body: {
         title: modalForm.title.value,

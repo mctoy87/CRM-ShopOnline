@@ -1,11 +1,8 @@
 import {createRow} from './createElements.js';
-import getElement from './getElement.js';
-const {
-  modalForm,
-} = getElement;
 
-const URL = 'https://guttural-flax-seatbelt.glitch.me/api/goods';
+export const URL = 'https://guttural-flax-seatbelt.glitch.me/api/goods';
 
+// здесь для примера XML запрос, но приоритетней fetch
 export const httpRequest = (url, {
   method = 'GET',
   callback,
@@ -42,6 +39,41 @@ export const httpRequest = (url, {
   }
 };
 
+// fetch -запросы к серверу
+export const fetchRequest = async (url, {
+  // параметры объекта(не нужно отправлять body даже если пустой как в XML)
+  method = 'GET',
+  callback,
+  body,
+  headers,
+}) => {
+  try {
+    // внутри try выполняем запрос по options
+    // method - обязательный, остальные опциональные
+    const options = {
+      method,
+    };
+    // проверяем наличие опциональных параметров
+    if (body) options.body = JSON.stringify(body);
+
+    if (headers) options.headers = headers;
+    // выполняем запрос, передаем url и опции
+    const response = await fetch(url, options);
+    // проверяем  если код HTTP-статуса в диапазоне 200-299.
+    if (response.ok) {
+      // получаем из него данные
+      const data = await response.json();
+      // вызываем callback проверяя существует ли он
+      if (callback) callback(null, data);
+      return;
+    }
+    // если что-то пошло не так
+    throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
+  } catch (err) {
+    callback(err);
+  }
+};
+
 // 2. Создайте функцию renderGoods, принимает один параметр массив с объектами
 // Функция renderGoods перебирает массив и вставляет строки, созданные
 //  на основе createRow, в таблицу (советую использовать метод map)
@@ -60,8 +92,8 @@ export const renderGoods = (err, data) => {
 };
 
 export const getRenderGoods = () => {
-  httpRequest(URL, {
-    meyhod: 'get',
+  fetchRequest(URL, {
+    method: 'get',
     callback: renderGoods,
   });
 };
