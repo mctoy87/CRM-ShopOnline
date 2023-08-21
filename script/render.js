@@ -1,4 +1,5 @@
 import {createRow} from './createElements.js';
+import {showSum} from './view.js';
 
 export const URL = 'https://guttural-flax-seatbelt.glitch.me/api/goods';
 
@@ -64,13 +65,13 @@ export const fetchRequest = async (url, {
       // получаем из него данные
       const data = await response.json();
       // вызываем callback проверяя существует ли он
-      if (callback) callback(null, data);
+      if (callback) return callback(null, data);
       return;
     }
     // если что-то пошло не так
     throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
   } catch (err) {
-    callback(err);
+    return callback(err);
   }
 };
 
@@ -87,8 +88,13 @@ export const renderGoods = (err, data) => {
   const makeRaw = data.map(item => createRow(item));
   // получаем tbody
   const table = document.querySelector('.table__body');
+  // затираем то что было в таблице
+  table.textContent = '';
   // append в tbody
   table.append(...makeRaw);
+
+  // вызов функции отображение общей суммы
+  showSum();
 };
 
 export const getRenderGoods = () => {
@@ -97,6 +103,3 @@ export const getRenderGoods = () => {
     callback: renderGoods,
   });
 };
-
-getRenderGoods();
-

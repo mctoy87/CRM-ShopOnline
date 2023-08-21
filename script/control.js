@@ -1,50 +1,184 @@
 import {showSum} from './view.js';
-import {renderGoods} from './render.js';
 import {getRenderGoods} from './render.js';
 import {fetchRequest} from './render.js';
 import getElement from './getElement.js';
 import {URL} from './render.js';
+import loadstyle from './loadstyle.js';
+
 
 const {
-  modalForm,
-  modalDiscountInput,
-  modalTotalCost,
   modalOpen,
-  modal,
-  list,
-  modalError,
 } = getElement;
 
-const modalControl = () => {
-  // открытие модалки
-  modalOpen.addEventListener('click', () => {
-    modal.classList.remove('modal_display-none');
-    // вызов функции отображение общей суммы
-    modalTotalCost.textContent = '';
-    modalTotalCost.textContent = showSum();
-  });
+const showModal = async (err, data) => {
+  await loadstyle('../styles/form.css');
+  // создаем модалку
+  const overlay = document.createElement('div');
+  overlay.classList.add('modal');
+  document.body.append(overlay);
+  const modalBody = document.createElement('div');
+  modalBody.classList.add('modal__body');
+  const modalTitle = document.createElement('h2');
+  modalTitle.classList.add('modal__title', 'title');
+  modalTitle.textContent = 'Добавить товар';
+  const modalForm = document.createElement('form');
+  modalForm.classList.add('modal__form', 'form');
+  modalForm.action = 'https://jsonplaceholder.typicode.com/posts';
+  modalForm.method = 'POST';
+  modalForm.id = 'modal';
+  overlay.append(modalBody);
+  modalBody.append(modalTitle, modalForm);
+  modalForm.insertAdjacentHTML(
+      'afterbegin', `
+      <fieldset class="form__box">
+        <label class="form__label form__name">
+          <span class="form__label-text">Наименование</span>
+          <input class="form__input" 
+                type="text" name="title" id="name" required>
+        </label>
+
+        <label class="form__label form__category">
+          <span class="form__label-text">Категория</span>
+          <input class="form__input" 
+            type="text" name="category" id="category" required>
+        </label>
+
+
+        <label class="form__label form__units">
+          <span class="form__label-text">Единицы измерения</span>
+          <input class="form__input" 
+            type="text" name="units" id="units" required>
+        </label>
+
+        <div class="form__discount">
+          <label class="form__label" for="discount">
+            <span class="form__label-text">Дисконт</span>
+          </label>
+          
+          <div class="form__discount-wrap">
+            <input class="form__checkbox" 
+              type="checkbox" name="discount" id="discount">
+            <label class="form__checkbox-label" for="discount"></label>
+            <input class="form__input form__input_disabled" id="discont"
+              type="number" name="discount_card" placeholder ="%" disabled>
+          </div>
+        </div>
+
+        <label class="form__label form__description">
+          <span class="form__label-text">Описание</span>
+          <textarea class="form__text-area form__input" 
+            name="description" id="description" required></textarea>
+        </label>
+
+        <label class="form__label form__count">
+          <span class="form__label-text">Количество</span>
+          <input class="form__number-input form__input" 
+            type="number" name="count" id="count" required>
+        </label>
+
+        <label class="form__label form__price">
+          <span class="form__label-text form__number">Цена</span>
+          <input class="form__price-input form__input" 
+            type="number" name="price" id="price" required>
+        </label>
+
+        <label class="form__image-label form-btn" for="image" tabindex="0">
+          <span class="form__image-text">Добавить изображение</span>
+          <input class="form__image visually-hidden" 
+            type="file" name="image" id="image">
+        </label>
+      </fieldset>
+
+      <div class="form__cost-wrap">
+        <p class="form__total-cost-txt total-cost-txt">Итоговая стоимость:
+          <span class="form__total-cost total-cost">$ 900.00</span>
+        </p>
+        <button class="form__submit form-btn" 
+          type="submit" form="modal">Добавить товар</button>
+      </div>
+
+    </form>
+
+    <button class="modal__close" type="button">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 2L22 22" stroke="currentColor" 
+          stroke-width="3" stroke-linecap="round"/>
+        <path d="M2 22L22 2" stroke="currentColor" 
+          stroke-width="3" stroke-linecap="round"/>
+        </svg>        
+    </button>
+
+    <div class="modal__error visually-hidden">
+      <div class="modal__error-wrap">
+      </div>
+      <p class= "modal__error-text">Что-то пошло не так</p>
+      <button class="modal__error-close" type="button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2L22 22" stroke="currentColor" 
+            stroke-width="3" stroke-linecap="round"/>
+          <path d="M2 22L22 2" stroke="currentColor" 
+            stroke-width="3" stroke-linecap="round"/>
+        </svg>        
+      </button>
+    </div>
+  </div>`,
+  );
+
+  if (data) {
+    modalForm.elements.title.value = `${data.title}`;
+    modalForm.elements.category.value = `${data.category}`;
+    modalForm.elements.units.value = `${data.units}`;
+    modalForm.elements.description.value = `${data.description}`;
+    modalForm.elements.count.value = `${data.count}`;
+    modalForm.elements.price.value = `${data.price}`;
+    /*
+    попытка изменить значение инпута со скидкой
+    не отображается value скидки хотя есть obj.value
+    if (data.discount) {
+      modalForm.elements.discont.removeAttribute('disabled');
+      modalForm.elements.discount_card.value = `${+data.discount}`;
+    modalForm.elements.discont.value = `${data.discont}`;
+    }
+    */
+  }
+
+  // new Promise(resolve => {
+  //   overlay.addEventListener('click', e => {
+  //     const target = e.target;
+  //     console.log(target);
+  //     if (target === overlay ||
+  //       (target.classList.contains('modal__body')) ||
+  //       target.closest('.modal__close')) {
+  //       overlay.classList.add('modal_display-none');
+  //       resolve(false);
+  //     }
+  //   });
+  // });
+
   // закрытие модалки на крестик и overlay
-  modal.addEventListener('click', e => {
+  overlay.addEventListener('click', e => {
     const target = e.target;
-    if ((target === modal) ||
+    if ((target === overlay) ||
         (target.classList.contains('modal__body')) ||
         target.closest('.modal__close')) {
-      modal.classList.add('modal_display-none');
       // сброс формы при выходе
+      const modalForm = document.querySelector('.modal__form');
+      const modalDiscontInput = document.querySelector('.form__input_disabled');
       modalForm.reset();
-      modalDiscountInput.setAttribute('disabled', '');
+      modalDiscontInput.setAttribute('disabled', '');
+      overlay.remove();
     }
     // закрытие окна с ошибкой "Что-то пошло не так"
-    if ((target === modal) ||
+    const modalError = document.querySelector('.modal__error');
+    if ((target === overlay) ||
         target.closest('.modal__error-close')) {
       // скрыть окошко об ошибке с сервера
       modalError.classList.add('visually-hidden');
     }
   });
-};
 
-// добавление из формы в data
-const addProduct = (arrayGoods) => {
+  // AJAX POST Fetch
+  // const modalForm = document.querySelector('.modal__form');
   modalForm.addEventListener('submit', e => {
     e.preventDefault();
     // запрос к серверу
@@ -57,12 +191,13 @@ const addProduct = (arrayGoods) => {
         count: modalForm.count.value,
         units: modalForm.units.value,
         category: modalForm.category.value,
+        discount: modalForm.discont.value,
       },
       callback(err, data) {
         if (err || data === null) {
           console.warn(err, data);
-          const modalDisplay = document.querySelector('.modal');
-          modalDisplay.classList.remove('modal_display-none');
+          // const modalDisplay = document.querySelector('.modal');
+          // modalDisplay.classList.remove('modal_display-none');
           const modalError = document.querySelector('.modal__error');
           modalError.classList.remove('visually-hidden');
           return;
@@ -74,39 +209,115 @@ const addProduct = (arrayGoods) => {
         'Content-Type': 'application/json',
       },
     });
-    const formData = new FormData(e.target);
-    arrayGoods.push(Object.fromEntries(formData));
 
-    renderGoods([Object.fromEntries(formData)]);
+    // const formData = new FormData(e.target);
+    // data.push(Object.fromEntries(formData));
+
+    // renderGoods([Object.fromEntries(formData)]);
     // отображение корректной общей суммы в таблице
-    showSum();
+    // showSum();
+
     modalForm.reset();
-    modalDiscountInput.setAttribute('disabled', '');
+    const modalDiscontInput = document.querySelector('.form__input_disabled');
+    modalDiscontInput.setAttribute('disabled', '');
 
     // закрытие модалки
-    modal.classList.add('modal_display-none');
+    overlay.remove();
   });
+
+  // снимает disabled с input discount
+  modalForm.addEventListener('click', e => {
+    const target = e.target;
+    if (target.closest('.form__checkbox')) {
+      const modalDiscontInput = document.querySelector('.form__input_disabled');
+      if (modalDiscontInput.hasAttribute('disabled')) {
+        modalDiscontInput.removeAttribute('disabled');
+      } else {
+        // сброс введенного значения
+        modalDiscontInput.value = '';
+        modalDiscontInput.setAttribute('disabled', '');
+      }
+    }
+  });
+
+  // отображение корректной общей суммы в модалке
+  // при смене фокуса на price
+  modalForm.price.addEventListener('change', e => {
+    const pageTotalCost = document.querySelector('.page__total-cost');
+    const modalTotalCost = document.querySelector('.form__total-cost');
+    const modalDiscontInput = document.querySelector('.form__input_disabled');
+    const pageSum = +pageTotalCost.textContent.substring(1);
+    const count = +modalForm.count.value;
+    const price = +e.target.value;
+    if ((modalForm.count.value !== '') && (modalDiscontInput.value !== '')) {
+      modalTotalCost.textContent = '';
+      const total = pageSum + count * price - (
+        count * price * 0.01 * +modalDiscontInput.value);
+      modalTotalCost.textContent = `$ ${total.toFixed(2)}`;
+    } else if (modalForm.count.value !== '') {
+      modalTotalCost.textContent = '';
+      const total = pageSum + count * price;
+      modalTotalCost.textContent = `$ ${total.toFixed(2)}`;
+    }
+  });
+  // при смене фокуса на count
+  modalForm.count.addEventListener('change', e => {
+    const pageTotalCost = document.querySelector('.page__total-cost');
+    const modalTotalCost = document.querySelector('.form__total-cost');
+    const modalDiscontInput = document.querySelector('.form__input_disabled');
+    const pageSum = +pageTotalCost.textContent.substring(1);
+    const price = +modalForm.price.value;
+    const count = +e.target.value;
+    if ((modalForm.price.value !== '') && (modalDiscontInput.value !== '')) {
+      modalTotalCost.textContent = '';
+      const total = pageSum + price * count - (
+        price * count * 0.01 * +modalDiscontInput.value);
+      modalTotalCost.textContent = `$ ${total.toFixed(2)}`;
+    } else if (modalForm.price.value !== '') {
+      modalTotalCost.textContent = '';
+      const total = pageSum + price * count;
+      modalTotalCost.textContent = `$ ${total.toFixed(2)}`;
+    }
+  });
+  // showModal возвращает response
+  return data;
 };
 
-// удалить из БД товар
-const deleteProduct = (arrayGoods) => {
-  // удалить строки из верстки по событию
-  list.addEventListener('click', e => {
+const modalControl = async () => {
+  // открытие модалки
+  modalOpen.addEventListener('click', async ({target}) => {
+    await showModal();
+    const modalTotalCost = document.querySelector('.form__total-cost');
+    modalTotalCost.textContent = '';
+    modalTotalCost.textContent = showSum();
+  });
+
+  // таблица
+  const table = document.querySelector('table');
+  // кнопка редактировать
+  table.addEventListener('click', async e => {
+    const target = e.target;
+    if (target.classList.contains('table__edit')) {
+      // console.log(`${target.dataset.id}`);
+      const result = await fetchRequest(`${URL}/${target.dataset.id}`, {
+        method: 'GET',
+        callback: showModal,
+      });
+      const modalTotalCost = document.querySelector('.form__total-cost');
+      modalTotalCost.textContent = '';
+      modalTotalCost.textContent = showSum();
+      // console.log(`result: ${result.id}`);
+    }
+  });
+  // кнопка удалить (корзина)
+  table.addEventListener('click', async e => {
     const target = e.target;
     if (target.closest('.table__delete')) {
-      // удалить объект из БД arrayGoods по событию
-      // 1. получаем все кнопки delete в NodeList и спредим их в массив
-      const arr = [...document.querySelectorAll('.table__delete')];
-      // 2. методом массива indexOf находим индекс кнопки, содержащей target
-      // 3. методом splice удаляем из массива БД объект по индексу
-
-      arrayGoods.splice(arr.indexOf(target), 1);
-      // удалить из верстки
-      target.closest('.table__row').remove();
-      // 3.1. поменять общую сумму
-      showSum();
-      // 4. выводит в консоль БД
-      console.log('БД после удаления: ', arrayGoods);
+      console.log(target.dataset.id);
+      const result = await fetchRequest(`${URL}/${target.dataset.id}`, {
+        method: 'DELETE',
+        callback: getRenderGoods,
+      });
     }
     // открыть через кнопку добавления картинки
     if (target.closest('.table__picture')) {
@@ -120,6 +331,4 @@ const deleteProduct = (arrayGoods) => {
 
 export default {
   modalControl,
-  addProduct,
-  deleteProduct,
 };
