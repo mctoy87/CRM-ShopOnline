@@ -132,14 +132,13 @@ const showModal = async (err, data) => {
     modalForm.elements.count.value = `${data.count}`;
     modalForm.elements.price.value = `${data.price}`;
     /*
-    попытка изменить значение инпута со скидкой
-    не отображается value скидки хотя есть obj.value
+    изменить значение инпута со скидкой
+    */
     if (data.discount) {
       modalForm.elements.discont.removeAttribute('disabled');
-      modalForm.elements.discount_card.value = `${+data.discount}`;
-    modalForm.elements.discont.value = `${data.discont}`;
+      modalForm.elements.discount.checked = true;
+      modalForm.elements.discont.value = `${data.discount}`;
     }
-    */
   }
 
   // new Promise(resolve => {

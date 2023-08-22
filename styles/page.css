@@ -246,7 +246,7 @@ td:first-of-type {
 .table__select-wrap::before {
   position: absolute;
   content: "";
-  right: 60px;
+  right: 25px;
   top: 50%;
   transform: translateY(-50%);
 
