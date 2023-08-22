@@ -176,6 +176,32 @@ const showModal = async (err, data) => {
     }
   });
 
+  // добавить картинку в preview из модалки
+  const file = modalForm.elements.image;
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('form__img-preview-wrapper');
+  const img = document.createElement('img');
+  img.classList.add('form__img-preview');
+  wrapper.append(img);
+  modalForm.append(wrapper);
+  file.addEventListener('change', () => {
+    if (file.files.length > 0) {
+      if (file.files[0].size > 1_000_000) {
+        const modalFieldset = document.querySelector('.form__box');
+        const stopTxt = document.createElement('p');
+        stopTxt.classList.add('modal__stopText');
+        stopTxt.textContent = 'Изображение не должно превышать размер 1 Мб';
+        modalFieldset.append(stopTxt);
+        img.src = '';
+      } else {
+        const stopTxt = document.querySelector('.modal__stopText');
+        if (stopTxt) stopTxt.remove();
+        const objURL = window.URL.createObjectURL(file.files[0]);
+        img.src = objURL;
+      }
+    }
+  });
+
   // AJAX POST Fetch
   // const modalForm = document.querySelector('.modal__form');
   modalForm.addEventListener('submit', e => {
@@ -320,6 +346,7 @@ const modalControl = async () => {
     }
     // открыть через кнопку добавления картинки
     if (target.closest('.table__picture')) {
+      console.log('Картинка');
       const topPic = (screen.height - 600) / 2;
       const widthPic = (screen.width - 600) / 2;
       window.open(target.dataset.pic, '', `
