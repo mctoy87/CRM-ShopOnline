@@ -67,7 +67,8 @@ const showModal = async (err, data) => {
         <label class="form__label form__description">
           <span class="form__label-text">Описание</span>
           <textarea class="form__text-area form__input" 
-            name="description" id="description" required></textarea>
+            name="description" id="description" minlength="80" 
+            required></textarea>
         </label>
 
         <label class="form__label form__count">
@@ -304,6 +305,26 @@ const showModal = async (err, data) => {
       modalTotalCost.textContent = `$ ${total.toFixed(2)}`;
     }
   });
+  // валидация ввода символов в модалке
+
+  modalForm.addEventListener('input', e => {
+    /* поле наименование, категория и описание
+    разрешите ввод только кириллицу и пробел */
+    const regExp = /[^А-яЁё ]/g;
+    modalForm.title.value = modalForm.title.value.replace(regExp, '');
+    modalForm.category.value = modalForm.category.value.replace(regExp, '');
+    modalForm.description.value = modalForm.description.value.replace(regExp,
+        '');
+    // поле единицы измерения только кириллицу
+    const regExp2 = /[^А-яЁё]/g;
+    modalForm.units.value = modalForm.units.value.replace(regExp2, '');
+    // поле количество, дисконт и цена разрешите ввод только цифр
+    const regExp3 = /\D/g;
+    modalForm.count.value = modalForm.count.value.replace(regExp3, '');
+    modalForm.price.value = modalForm.price.value.replace(regExp3, '');
+    modalForm.discont.value = modalForm.discont.value.replace(regExp3, '');
+  });
+
   // showModal возвращает response
   return data;
 };

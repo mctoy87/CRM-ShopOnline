@@ -6,6 +6,15 @@ const {
   modalControl,
 } = control;
 
+// preloader
+window.onload = function() {
+  document.body.classList.add('loaded_hiding');
+  window.setTimeout(() => {
+    document.body.classList.add('loaded');
+    document.body.classList.remove('loaded_hiding');
+  }, 500);
+};
+
 // export const arrayGoods = [
 //   {
 //     'id': 253842678,
