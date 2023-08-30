@@ -3,6 +3,10 @@
   padding-bottom: 100px;
 }
 
+.page-hidden {
+  display: none;
+}
+
 .page__title-wrap {
   display: flex;
   justify-content: space-between;
@@ -129,6 +133,31 @@ text-align: left;
 th:first-of-type,
 td:first-of-type {
   padding-left: 15px;
+}
+
+/* задаем ширину чтобы не прыгала таблица */
+.table__id {
+  min-width: 110px;
+}
+
+.table__name {
+  min-width: 378px;
+}
+
+.table__category {
+  min-width: 180px;
+}
+
+.table-measure {
+  min-width: 65px;
+}
+
+.table__quantity {
+  min-width: 140px;
+}
+
+.table__icons {
+  min-width: 20px;
 }
 
 .table__measure,

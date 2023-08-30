@@ -3,6 +3,31 @@ import {showSum} from './view.js';
 
 export const URL = 'https://guttural-flax-seatbelt.glitch.me/api/goods';
 
+// preloader
+
+const showLoader = () => {
+  // document.body.classList.add('loaded_hiding');
+  // для скелетной загрузки
+  const page = document.querySelector('.page');
+  page.classList.add('page-hidden');
+  console.log('Лоадер появился');
+};
+
+const hideLoader = () => {
+  // для скелетной загрузки
+  const skeleton = document.querySelector('.skeleton');
+  skeleton.classList.add('skeleton-hidden');
+  const page = document.querySelector('.page');
+  page.classList.remove('page-hidden');
+  console.log('Убрали лоадер');
+
+  /* для прелоадера
+  document.body.classList.add('loaded');
+  document.body.classList.remove('loaded_hiding');
+  */
+};
+
+
 // здесь для примера XML запрос, но приоритетней fetch
 export const httpRequest = (url, {
   method = 'GET',
@@ -49,6 +74,8 @@ export const fetchRequest = async (url, {
   headers,
 }) => {
   try {
+    // прогружаем лоадер
+    showLoader();
     // внутри try выполняем запрос по options
     // method - обязательный, остальные опциональные
     const options = {
@@ -61,9 +88,12 @@ export const fetchRequest = async (url, {
     // выполняем запрос, передаем url и опции
     const response = await fetch(url, options);
     // проверяем  если код HTTP-статуса в диапазоне 200-299.
+
     if (response.ok) {
       // получаем из него данные
       const data = await response.json();
+      // убираем лоадер
+      hideLoader();
       // вызываем callback проверяя существует ли он
       if (callback) return callback(null, data);
       return;
@@ -71,6 +101,8 @@ export const fetchRequest = async (url, {
     // если что-то пошло не так
     throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
   } catch (err) {
+    // убираем лоадер
+    hideLoader();
     return callback(err);
   }
 };
@@ -95,11 +127,16 @@ export const renderGoods = (err, data) => {
 
   // вызов функции отображение общей суммы
   showSum();
+
+  // убираем лоадер
+  hideLoader();
 };
 
-export const getRenderGoods = () => {
-  fetchRequest(URL, {
+export const getRenderGoods = async () => {
+  await fetchRequest(URL, {
     method: 'get',
     callback: renderGoods,
   });
 };
+
+

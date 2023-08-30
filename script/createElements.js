@@ -10,9 +10,9 @@ export const createRow = (obj) => {
   const tableRow = document.createElement('tr');
   tableRow.classList.add('table__row');
   tableRow.insertAdjacentHTML('afterbegin',
-      `<td class ="table_id">${obj.id}</td>
-    <td>${obj.title}</td>
-    <td>${obj.category}</td>
+      `<td class ="table__id">${obj.id}</td>
+    <td class ="table__name">${obj.title}</td>
+    <td class ="table__category">${obj.category}</td>
     <td class="table__measure">${obj.units}</td>
     <td class="table__quantity">${obj.count}</td>
     
