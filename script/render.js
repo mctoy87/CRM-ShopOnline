@@ -1,7 +1,7 @@
 import {createRow} from './createElements.js';
 import {showSum} from './view.js';
 
-export const URL = 'https://guttural-flax-seatbelt.glitch.me/api/goods';
+export const URL = ' http://localhost:3000/api/goods';
 
 // preloader
 
@@ -10,7 +10,7 @@ const showLoader = () => {
   // для скелетной загрузки
   const page = document.querySelector('.page');
   page.classList.add('page-hidden');
-  console.log('Лоадер появился');
+  // console.log('Лоадер появился');
 };
 
 const hideLoader = () => {
@@ -19,7 +19,7 @@ const hideLoader = () => {
   skeleton.classList.add('skeleton-hidden');
   const page = document.querySelector('.page');
   page.classList.remove('page-hidden');
-  console.log('Убрали лоадер');
+  // console.log('Убрали лоадер');
 
   /* для прелоадера
   document.body.classList.add('loaded');
@@ -99,7 +99,7 @@ export const fetchRequest = async (url, {
       return;
     }
     // если что-то пошло не так
-    throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
+    throw new Error(`Ошибка: ${response.status}, ${response.statusText}`);
   } catch (err) {
     // убираем лоадер
     hideLoader();
@@ -117,7 +117,7 @@ export const renderGoods = (err, data) => {
   }
   // рендерит массив объектов, перебирает(map)
   // возвращает объекты после функции createRow
-  const makeRaw = data.map(item => createRow(item));
+  const makeRaw = data.goods.map(item => createRow(item));
   // получаем tbody
   const table = document.querySelector('.table__body');
   // затираем то что было в таблице
@@ -127,6 +127,11 @@ export const renderGoods = (err, data) => {
 
   // вызов функции отображение общей суммы
   showSum();
+
+  // пагинация страниц от AJAX
+  const pages = document.querySelector('.table__pages');
+  const pagesSelect = document.querySelector('#table-select');
+  pages.textContent = `1-${pagesSelect.value} of ${data.totalCount}`;
 
   // убираем лоадер
   hideLoader();

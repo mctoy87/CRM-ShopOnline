@@ -6,19 +6,6 @@ const {
   modalControl,
 } = control;
 
-// preloader
-
-// window.onload = async function() {
-//   let isLoading = true;
-//   document.body.classList.add('loaded_hiding');
-//   console.log(await fetch());
-//   window.setTimeout(() => {
-//     document.body.classList.add('loaded');
-//     document.body.classList.remove('loaded_hiding');
-//   }, 500);
-// };
-
-
 // export const arrayGoods = [
 //   {
 //     'id': 253842678,

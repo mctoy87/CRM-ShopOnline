@@ -23,6 +23,7 @@ export const createRow = (obj) => {
         class="table__picture" 
         type="button"
         data-pic="../icons/turbo.jpg"
+        data-id= "${obj.id}"
       >
       </button>
     </td>
@@ -35,5 +36,11 @@ export const createRow = (obj) => {
     `,
   );
   return tableRow;
+};
+
+export const createOptions = (select) => {
+  const option = document.createElement('option');
+  option.value = `${select}`;
+  return option;
 };
 

@@ -1,16 +1,21 @@
-import {showSum} from './view.js';
-import {getRenderGoods} from './render.js';
-import {fetchRequest} from './render.js';
+import {showSum, showImage} from './view.js';
+import {getRenderGoods, URL, fetchRequest} from './render.js';
+
 import getElement from './getElement.js';
-import {URL} from './render.js';
+
 import loadstyle from './loadstyle.js';
+import {renderGoods} from './render.js';
+
+import {createOptions} from './createElements.js';
 
 
 const {
   modalOpen,
+  pageSearch,
 } = getElement;
 
-const showModal = async (err, data) => {
+
+const showModal = async (err, data, categories) => {
   await loadstyle('../styles/form.css');
   // создаем модалку
   const overlay = document.createElement('div');
@@ -40,7 +45,12 @@ const showModal = async (err, data) => {
         <label class="form__label form__category">
           <span class="form__label-text">Категория</span>
           <input class="form__input" 
-            type="text" name="category" id="category" required>
+            type="text" list="categories" name="category" id="category" required>
+          <datalist id="categories">
+            <option value="Телефоны">
+            <option value="Персональные компьютеры">
+            <option value="Opera">
+          </datalist>
         </label>
 
 
@@ -132,28 +142,19 @@ const showModal = async (err, data) => {
     modalForm.elements.description.value = `${data.description}`;
     modalForm.elements.count.value = `${data.count}`;
     modalForm.elements.price.value = `${data.price}`;
-    /*
-    изменить значение инпута со скидкой
-    */
+    /* изменить значение инпута со скидкой  */
     if (data.discount) {
       modalForm.elements.discont.removeAttribute('disabled');
       modalForm.elements.discount.checked = true;
       modalForm.elements.discont.value = `${data.discount}`;
     }
   }
-
-  // new Promise(resolve => {
-  //   overlay.addEventListener('click', e => {
-  //     const target = e.target;
-  //     console.log(target);
-  //     if (target === overlay ||
-  //       (target.classList.contains('modal__body')) ||
-  //       target.closest('.modal__close')) {
-  //       overlay.classList.add('modal_display-none');
-  //       resolve(false);
-  //     }
-  //   });
-  // });
+  if (categories) {
+    const dataList = document.querySelector('#categories');
+    dataList.textContent = '';
+    const makeDataList = categories.map(item => createOptions(item));
+    dataList.append(...makeDataList);
+  }
 
   // закрытие модалки на крестик и overlay
   overlay.addEventListener('click', e => {
@@ -170,10 +171,12 @@ const showModal = async (err, data) => {
     }
     // закрытие окна с ошибкой "Что-то пошло не так"
     const modalError = document.querySelector('.modal__error');
-    if ((target === overlay) ||
-        target.closest('.modal__error-close')) {
-      // скрыть окошко об ошибке с сервера
-      modalError.classList.add('visually-hidden');
+    if (modalError) {
+      if ((target === overlay) ||
+          target.closest('.modal__error-close')) {
+        // скрыть окошко об ошибке с сервера
+        modalError.classList.add('visually-hidden');
+      }
     }
   });
 
@@ -191,6 +194,7 @@ const showModal = async (err, data) => {
         const modalFieldset = document.querySelector('.form__box');
         const stopTxt = document.createElement('p');
         stopTxt.classList.add('modal__stopText');
+        stopTxt.textContent = '';
         stopTxt.textContent = 'Изображение не должно превышать размер 1 Мб';
         modalFieldset.append(stopTxt);
         img.src = '';
@@ -225,10 +229,18 @@ const showModal = async (err, data) => {
           // const modalDisplay = document.querySelector('.modal');
           // modalDisplay.classList.remove('modal_display-none');
           const modalError = document.querySelector('.modal__error');
+          const errorText = document.querySelector('.modal__error-text');
+          if (err.message) errorText.textContent = err.message;
           modalError.classList.remove('visually-hidden');
           return;
         }
         console.log(`Заявка успешно отправлена. Номер заявки ${data.id}`);
+        modalForm.reset();
+        const modalDiscontInput = document.querySelector('.form__input_disabled');
+        modalDiscontInput.setAttribute('disabled', '');
+
+        // закрытие модалки
+        overlay.remove();
         getRenderGoods();
       },
       headers: {
@@ -243,12 +255,14 @@ const showModal = async (err, data) => {
     // отображение корректной общей суммы в таблице
     // showSum();
 
+    /* изначально писал код НЕ внутри запроса fetch
     modalForm.reset();
     const modalDiscontInput = document.querySelector('.form__input_disabled');
     modalDiscontInput.setAttribute('disabled', '');
 
     // закрытие модалки
     overlay.remove();
+    */
   });
 
   // снимает disabled с input discount
@@ -330,50 +344,103 @@ const showModal = async (err, data) => {
 
 const modalControl = async () => {
   // открытие модалки
+
+  // fetch-запрос для получения списка категорий datalist
+  const result = await fetch('http://localhost:3000/api/categories');
+  const categories = await result.json();
+
   modalOpen.addEventListener('click', async ({target}) => {
-    await showModal();
+    await showModal(NaN, NaN, categories);
+
     const modalTotalCost = document.querySelector('.form__total-cost');
     modalTotalCost.textContent = '';
     modalTotalCost.textContent = showSum();
   });
+};
 
-  // таблица
-  const table = document.querySelector('table');
-  // кнопка редактировать
-  table.addEventListener('click', async e => {
-    const target = e.target;
-    if (target.classList.contains('table__edit')) {
-      // console.log(`${target.dataset.id}`);
-      const result = await fetchRequest(`${URL}/${target.dataset.id}`, {
-        method: 'GET',
-        callback: showModal,
-      });
-      const modalTotalCost = document.querySelector('.form__total-cost');
-      modalTotalCost.textContent = '';
-      modalTotalCost.textContent = showSum();
-      // console.log(`result: ${result.id}`);
-    }
-  });
-  // кнопка удалить (корзина)
-  table.addEventListener('click', async e => {
-    const target = e.target;
-    if (target.closest('.table__delete')) {
+// таблица
+const table = document.querySelector('.table');
+// кнопка редактировать
+table.addEventListener('click', async e => {
+  const target = e.target;
+  if (target.classList.contains('table__edit')) {
+    // console.log(`${target.dataset.id}`);
+    const result = await fetchRequest(`${URL}/${target.dataset.id}`, {
+      method: 'GET',
+      callback: showModal,
+    });
+    const modalTotalCost = document.querySelector('.form__total-cost');
+    modalTotalCost.textContent = '';
+    modalTotalCost.textContent = showSum();
+    // console.log(`result: ${result.id}`);
+  }
+});
+// кнопка удалить (корзина)
+table.addEventListener('click', async e => {
+  const target = e.target;
+
+  if (target.closest('.table__delete')) {
+    const isDelete = confirm('Вы действительно хотите удалить товар?');
+    console.log(isDelete);
+    if (isDelete) {
       console.log(target.dataset.id);
       const result = await fetchRequest(`${URL}/${target.dataset.id}`, {
         method: 'DELETE',
         callback: getRenderGoods,
       });
     }
-    // открыть через кнопку добавления картинки
-    if (target.closest('.table__picture')) {
-      console.log('Картинка');
-      const topPic = (screen.height - 600) / 2;
-      const widthPic = (screen.width - 600) / 2;
-      window.open(target.dataset.pic, '', `
-        width=600, height=600, top=${topPic}, left=${widthPic}`);
-    }
-  });
-};
+  }
+  // открыть через кнопку добавления картинки
+  if (target.closest('.table__picture')) {
+    // console.log('Картинка');
+    // const topPic = (screen.height - 600) / 2;
+    // const widthPic = (screen.width - 600) / 2;
+    // window.open(target.dataset.pic, '', `
+    //   width=600, height=600, top=${topPic}, left=${widthPic}`);
+    const result = await fetchRequest(`${URL}/${target.dataset.id}`, {
+      method: 'GET',
+      callback: showImage,
+    });
+  }
+  // кнопки пагинации
+  if (target.closest('.table__next-page')) {
+    console.log(`Pagination next`);
+    const result = await fetchRequest(`${URL}?` + new URLSearchParams({
+      page: 2,
+      // search: 2,
+    }),
+    {
+      method: 'GET',
+      callback: renderGoods,
+    });
+  }
+
+  if (target.closest('.table__previouse-page')) {
+    console.log(`Pagination previouse`);
+    const result = await fetchRequest(`${URL}?` + new URLSearchParams({
+      page: 1,
+      // search: 2,
+    }),
+    {
+      method: 'GET',
+      callback: renderGoods,
+    });
+  }
+});
+
+pageSearch.addEventListener('input', (e) => {
+  const target = e.target;
+  console.dir(target);
+  const params = new URLSearchParams();
+  params.append('search', `${target.value}`);
+  const timerId = setTimeout(async () => {
+    const result = await fetchRequest(`${URL}?${params}`,
+        {
+          method: 'GET',
+          callback: renderGoods,
+        });
+  }, 300);
+});
 
 export default {
   modalControl,

@@ -10,6 +10,7 @@ const modalOpen = document.querySelector('.page__modal-open');
 const modal = document.querySelector('.modal');
 const list = document.querySelector('.table__body');
 const modalError = document.querySelector('.modal__error');
+const pageSearch = document.querySelector('#page-search');
 
 export default {
   modalId,
@@ -22,4 +23,5 @@ export default {
   modal,
   list,
   modalError,
+  pageSearch,
 };
